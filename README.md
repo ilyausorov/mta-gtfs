@@ -5,7 +5,7 @@ An NYC MTA API library
 ## Install
 
 ```
-npm install mta-gtfs --save
+npm install ilyausorov/mta-gtfs --save
 ```
 
 ## Usage
