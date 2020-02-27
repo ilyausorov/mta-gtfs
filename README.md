@@ -8,6 +8,14 @@ An NYC MTA API library
 npm install ilyausorov/mta-gtfs --save
 ```
 
+## Changelog (versus original repo)
+
+- Updated protobuf to 6.8.8
+- Updated GTFS parsing to use methods found in protobuf@6.8.8
+- Updated data in data/gtfs folder using the update_gtfs.sh script. RUN IT REGUARLY, perhaps cron it on your server!
+- Updated the `parseObj` method in `utils/index` to conform to the new data model for trips
+- Updated the `schedule` method in `mta.js` to confirm to the new data model for trips
+
 ## Usage
 
 ### Library
