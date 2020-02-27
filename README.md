@@ -90,6 +90,14 @@ mta.schedule(635, 1).then(function (result) {
 });
 ```
 
+If you need to get data on multiple stops that are part of the same feedId, it's highly recommended to pass them as an array of stops rather than calling the schedule method individually. You may get timed out from the MTA api if you call it too much too fast.
+
+```Javascript
+mta.schedule([635, 636, 658], 1).then(function (result) {
+  console.log(result);
+});
+```
+
 The API route this method hits is updated by the MTA every 30 seconds.
 
 ## Tests
