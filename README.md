@@ -15,6 +15,7 @@ npm install ilyausorov/mta-gtfs --save
 - Updated data in `lib/data/gtfs` folder using the `update_gtfs.sh` script. RUN IT REGUARLY folks, perhaps cron it on your server!
 - Updated the `parseObj` method in `lib/utils/index` to conform to the new data model for trips
 - Updated the `schedule` method in `lib/mta.js` to confirm to the new data model for trips
+- Updated to new MTA API (https://api.mta.info/#/landing), which now uses new feed_ids
 
 ## Usage
 
@@ -24,7 +25,6 @@ npm install ilyausorov/mta-gtfs --save
 var Mta = require('mta-gtfs');
 var mta = new Mta({
   key: 'MY-MTA-API-KEY-HERE', // only needed for mta.schedule() method
-  feed_id: 1                  // optional, default = 1
 });
 ```
 * uses [node-fetch](https://github.com/bitinn/node-fetch) to make http requests
@@ -32,9 +32,9 @@ var mta = new Mta({
 
 #### MTA
 
-For feed information, see http://datamine.mta.info/list-of-feeds.
+For feed information, see https://api.mta.info/#/landing (must register to see feed URLs)
 
-In order to use the MTA real-time APIs, you will need an MTA API key from here: http://datamine.mta.info/user/register.
+In order to use the MTA real-time APIs, you will need an MTA API key from here: https://api.mta.info/#/signup
 
 ### Get subway stop info
 
@@ -80,12 +80,12 @@ mta.status('subway').then(function (result) {
 The API route this method hits is updated by the MTA every 60 seconds.
 
 ### Get real-time subway schedule data
-Only available for the routes found in this [list](http://datamine.mta.info/list-of-feeds).
+Only available for the routes found in this [list](https://api.mta.info/#/subwayRealTimeFeeds) (must be logged in). 
 
 Given a single subway stop id (or an array of stop ids) and an optional feedId, it gives schedule data for both northbound and southbound trains.
 
 ```Javascript
-mta.schedule(635, 1).then(function (result) {
+mta.schedule(635).then(function (result) {
   console.log(result);
 });
 ```
@@ -93,10 +93,21 @@ mta.schedule(635, 1).then(function (result) {
 If you need to get data on multiple stops that are part of the same feedId, it's highly recommended to pass them as an array of stops rather than calling the schedule method individually. You may get timed out from the MTA api if you call it too much too fast.
 
 ```Javascript
-mta.schedule([635, 636, 658], 1).then(function (result) {
+mta.schedule([635, 636, 658]).then(function (result) {
   console.log(result);
 });
 ```
+
+Feed Id must be one of:
+- 123456 - "" (empty string)
+- ACE - "ace"
+- NQRW - "nqrw"
+- BDFM - "bdfm"
+- JZ - "jz"
+- 7 - "7"
+- G - "g"
+- L - "l"
+- SIR - "si"
 
 The API route this method hits is updated by the MTA every 30 seconds.
 
