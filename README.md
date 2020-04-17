@@ -1,12 +1,20 @@
-# mta-gtfs
+# mta-gtfs UPDATED for 2020
 
 An NYC MTA API library
 
 ## Install
 
 ```
-npm install mta-gtfs --save
+npm install ilyausorov/mta-gtfs --save
 ```
+
+## Changelog (versus original repo)
+
+- Updated `protobuf` to `6.8.8`
+- Updated GTFS parsing to use methods found in `protobuf@6.8.8`
+- Updated data in `lib/data/gtfs` folder using the `update_gtfs.sh` script. RUN IT REGUARLY folks, perhaps cron it on your server!
+- Updated the `parseObj` method in `lib/utils/index` to conform to the new data model for trips
+- Updated the `schedule` method in `lib/mta.js` to confirm to the new data model for trips
 
 ## Usage
 
@@ -78,6 +86,14 @@ Given a single subway stop id (or an array of stop ids) and an optional feedId, 
 
 ```Javascript
 mta.schedule(635, 1).then(function (result) {
+  console.log(result);
+});
+```
+
+If you need to get data on multiple stops that are part of the same feedId, it's highly recommended to pass them as an array of stops rather than calling the schedule method individually. You may get timed out from the MTA api if you call it too much too fast.
+
+```Javascript
+mta.schedule([635, 636, 658], 1).then(function (result) {
   console.log(result);
 });
 ```
